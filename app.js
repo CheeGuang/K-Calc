@@ -7,9 +7,11 @@ const express = require("express");
 const path = require("path");
 // Initialising template Routes
 const templateRoutes = require("./controllers/template/template.routes");
+const categoryEmissionsRoutes = require("./controllers/categoryEmissions/categoryEmissions.routes");
 
 // ========== WebSocket Server ==========
 const http = require("http");
+const cors = require("cors");
 
 // ========== Set-Up ==========
 // Initiating app
@@ -17,6 +19,10 @@ const app = express();
 const port = 8000;
 
 // Set up HTTP and WebSocket servers
+
+// Apply CORS middleware BEFORE defining routes
+app.use(cors());
+
 const server = http.createServer(app);
 
 // Using Static Public
@@ -36,6 +42,7 @@ app.get("/", (req, res) => {
 // ========== Routes ==========
 // Template Route
 app.use("/api/template", templateRoutes);
+app.use("/api/categoryEmissions", categoryEmissionsRoutes);
 
 // ========== Initialise Server ==========
 // Server Listening at port 8000

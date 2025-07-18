@@ -35,6 +35,9 @@
       rel="stylesheet"
     />
 
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- Page Name -->
     <title>K-Calc</title>
 
@@ -71,8 +74,8 @@
       <div id="navbar-container"></div>
     </header>
 
-    <!-- Transparent Row with Small Height at the Top -->
-    <div class="row" style="height: 50px; background-color: transparent"></div>
+    <!-- Transparent Row with Small e Top -->
+    <div class="row" style="background-color: transparent"></div>
 
     <!-- Main Content Container -->
     <div class="container text-center">
@@ -82,10 +85,165 @@
           <div id="customAlertContainer"></div>
 
           <!-- ######################################## INSERT PAGE'S CONTENT HERE \/ ########################################################### -->
-          <!-- H1 Title -->
-          <h1 class="mt-3">Title</h1>
-          <!-- p Subtitle -->
-          <p class="mb-3">Sub-Title</p>
+          <div class="container-fluid">
+            <h1 class="mb-4 fw-bold">Dashboard</h1>
+            <div class="row">
+              <!-- Total Scope 3 Emissions -->
+              <div class="col-md-4 mb-4 kpi-stretched">
+                <div class="card h-100">
+                  <div class="card-body text-center">
+                    <h5>
+                      Total Scope 3 Emissions <i class="fas fa-info-circle"></i>
+                    </h5>
+                    <h1 id="totalEmissions">
+                      <span
+                        class="spinner-border spinner-border-sm text-secondary me-2"
+                      ></span
+                      >Loading...
+                    </h1>
+
+                    <div class="text-danger fw-bold">▲ 11.2%</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Emissions by Category -->
+              <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                  <div class="card-body text-center">
+                    <h5>
+                      Emissions by Category <i class="fas fa-info-circle"></i>
+                    </h5>
+                    <canvas id="emissionsByCategoryChart"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Emissions by Type -->
+              <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                  <div class="card-body text-center">
+                    <h5>
+                      Emissions by Type <i class="fas fa-info-circle"></i>
+                    </h5>
+                    <canvas id="emissionsByTypeChart"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Total Employees -->
+              <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                  <div class="card-body text-center">
+                    <h5>Total Employees <i class="fas fa-info-circle"></i></h5>
+                    <h2><span class="text-primary">105</span> people</h2>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Emissions / Employee -->
+              <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                  <div class="card-body text-center">
+                    <h5>
+                      Emissions / Employee <i class="fas fa-info-circle"></i>
+                    </h5>
+                    <h2><span class="text-primary">55.2</span> tCO₂e</h2>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Path to Net Zero -->
+              <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                  <div class="card-body text-center">
+                    <h5>Path to Net Zero <i class="fas fa-info-circle"></i></h5>
+                    <canvas id="netZeroChart"></canvas>
+                    <div class="text-success text-center mt-2">
+                      56% progress towards Net Zero emissions
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Top Emissions by Vendor -->
+              <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title text-center">
+                      Top Emissions by Vendor <i class="fas fa-circle-info"></i>
+                    </h5>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Vendor</th>
+                          <th>Emissions</th>
+                          <th>Amt. Spent</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Shipping Genius</td>
+                          <td>45 tCO₂e</td>
+                          <td>$127k</td>
+                        </tr>
+                        <tr>
+                          <td>Stevedore Master</td>
+                          <td>26 tCO₂e</td>
+                          <td>$89k</td>
+                        </tr>
+                        <tr>
+                          <td>Shipping Minions</td>
+                          <td>18 tCO₂e</td>
+                          <td>$51k</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Notifications -->
+              <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title text-center">
+                      Notifications <i class="fas fa-bell"></i>
+                    </h5>
+                    <ul class="list-group">
+                      <li
+                        class="list-group-item d-flex justify-content-between align-items-center"
+                      >
+                        <span
+                          ><i class="fas fa-file-alt me-2"></i>Incomplete data
+                          for Sept 2021</span
+                        >
+                        <button class="btn btn-sm btn-danger">View Here</button>
+                      </li>
+                      <li
+                        class="list-group-item d-flex justify-content-between align-items-center"
+                      >
+                        <span
+                          ><i class="fas fa-leaf me-2"></i>8% reduction in
+                          carbon emissions</span
+                        >
+                        <button class="btn btn-sm btn-danger">View Here</button>
+                      </li>
+                      <li
+                        class="list-group-item d-flex justify-content-between align-items-center"
+                      >
+                        <span
+                          ><i class="fas fa-upload me-2"></i>Upload
+                          Complete</span
+                        >
+                        <button class="btn btn-sm btn-danger">View Here</button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- ######################################## END OF PAGE'S CONTENT ########################################################### -->
         </div>
       </div>
