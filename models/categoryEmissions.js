@@ -15,6 +15,7 @@ class CategoryEmissions {
         SELECT 
           c.id AS category_id,
           c.name AS category_name,
+          c.categoryNumber AS category_categoryNumber,
           cs.id AS segment_id,
           cs.year,
           cs.category_segment,
@@ -44,6 +45,7 @@ class CategoryEmissions {
       const result = await pool.request().query(`
         SELECT 
           c.name AS category_name,
+          c.categoryNumber AS category_categoryNumber,
           cs.year,
           cs.category_segment,
           cs.category_segment_unit,
@@ -57,6 +59,7 @@ class CategoryEmissions {
       const emissions = result.recordset.map((row) => {
         const {
           category_name,
+          category_categoryNumber,
           year,
           category_segment,
           category_segment_unit,
@@ -70,6 +73,7 @@ class CategoryEmissions {
 
         return {
           category_name,
+          categoryNumber: category_categoryNumber,
           year,
           category_segment,
           unit: category_segment_unit,

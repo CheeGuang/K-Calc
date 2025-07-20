@@ -71,6 +71,28 @@ async function renderCharts() {
     options: {
       indexAxis: "y",
       plugins: { legend: { display: false } },
+      onClick: (e, elements) => {
+        if (elements.length > 0) {
+          const chart = elements[0].element.$context.chart;
+          const index = elements[0].index;
+          const categoryName = chart.data.labels[index];
+
+          // Map full category name to category number
+          const nameToNumberMap = {
+            "Purchased Goods and Services": "Category 1",
+            "Upstream Transportation and Distribution": "Category 4",
+            "Business Travel": "Category 6",
+            "Employee Commuting": "Category 7",
+          };
+
+          const categoryNumber = nameToNumberMap[categoryName];
+          if (categoryNumber) {
+            window.location.href = `emission.html?category=${encodeURIComponent(
+              categoryNumber
+            )}`;
+          }
+        }
+      },
       scales: {
         x: {
           title: {
@@ -88,13 +110,29 @@ async function renderCharts() {
     type: "bar",
     data: {
       labels: years,
-      datasets,
+      datasets: datasets.map((ds) => ({
+        ...ds,
+        maxBarThickness: 40,
+      })),
     },
     options: {
       responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2, // You can try 1, 1.5, or 2
+      layout: {
+        padding: {
+          right: 0, // reduce padding
+        },
+      },
       plugins: {
         tooltip: { mode: "index", intersect: false },
-        legend: { position: "top" },
+        legend: {
+          position: "bottom",
+          labels: {
+            boxWidth: 20,
+            padding: 10,
+          },
+        },
       },
       scales: {
         x: { stacked: true },
