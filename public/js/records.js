@@ -176,3 +176,53 @@ searchInput.addEventListener("input", () => {
     }
   });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const selectAllCheckbox = document.getElementById("selectAllCheckbox");
+
+  selectAllCheckbox.addEventListener("change", function () {
+    const allRowCheckboxes = document.querySelectorAll(
+      "tbody input[type='checkbox']"
+    );
+    allRowCheckboxes.forEach((cb) => {
+      cb.checked = selectAllCheckbox.checked;
+    });
+  });
+});
+
+document.querySelector(".download-btn").addEventListener("click", function () {
+  const rows = Array.from(document.querySelectorAll("tbody tr"));
+  const selectedRows = rows.filter(
+    (row) => row.querySelector("input[type='checkbox']").checked
+  );
+  const rowsToDownload =
+    selectedRows.length > 0
+      ? selectedRows
+      : rows.filter((r) => r.style.display !== "none");
+
+  // Extract headers
+  const headers = Array.from(document.querySelectorAll("thead th"))
+    .slice(1) // skip the checkbox column
+    .map((th) => th.textContent.trim());
+
+  // Extract data
+  const data = rowsToDownload.map((row) => {
+    return Array.from(row.querySelectorAll("td"))
+      .slice(1) // skip the checkbox column
+      .map((td) => td.textContent.trim());
+  });
+
+  // Convert to CSV
+  const csvContent = [headers.join(","), ...data.map((r) => r.join(","))].join(
+    "\n"
+  );
+
+  // Create and trigger download
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.setAttribute("download", "emissions_data.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});

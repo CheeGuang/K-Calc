@@ -61,9 +61,36 @@ const hardcodedInsights = {
 
 const hardcodedVendors = {
   "Category 1": [
-    { name: "Shipping Genius", emissions: "45 tCO₂e", spend: "$127k" },
-    { name: "Stevedore Master", emissions: "26 tCO₂e", spend: "$89k" },
-    { name: "Shipping Minions", emissions: "18 tCO₂e", spend: "$51k" },
+    { name: "Shipping Genius", emissions: "45 tCO₂e", spend: "$127 SGD" },
+    { name: "Stevedore Master", emissions: "26 tCO₂e", spend: "$89 SGD" },
+    { name: "Shipping Minions", emissions: "18 tCO₂e", spend: "$51 SGD" },
+    { name: "Ocean Nexus", emissions: "31 tCO₂e", spend: "$104 SGD" },
+    { name: "Port Titans", emissions: "22 tCO₂e", spend: "$72 SGD" },
+    { name: "Harbour Heroes", emissions: "16 tCO₂e", spend: "$48 SGD" },
+  ],
+  "Category 4": [
+    { name: "TransLogix", emissions: "52 tCO₂e", spend: "134km" },
+    { name: "LogiTrackers", emissions: "38 tCO₂e", spend: "97km" },
+    { name: "FleetMasters", emissions: "29 tCO₂e", spend: "81km" },
+    { name: "CargoSprint", emissions: "25 tCO₂e", spend: "69km" },
+    { name: "RouteXpress", emissions: "20 tCO₂e", spend: "55km" },
+    { name: "SwiftLoad", emissions: "15 tCO₂e", spend: "42km" },
+  ],
+  "Category 6": [
+    { name: "SkyWings Travel", emissions: "48 tCO₂e", spend: "141km" },
+    { name: "BizAir Global", emissions: "36 tCO₂e", spend: "105km" },
+    { name: "WorkJet", emissions: "27 tCO₂e", spend: "87km" },
+    { name: "FlightPro Corp", emissions: "22 tCO₂e", spend: "71km" },
+    { name: "JetMeet", emissions: "17 tCO₂e", spend: "58km" },
+    { name: "AeroTrips", emissions: "12 tCO₂e", spend: "39km" },
+  ],
+  "Category 7": [
+    { name: "EcoCommute", emissions: "34 tCO₂e", spend: "92km" },
+    { name: "GreenTransit", emissions: "28 tCO₂e", spend: "78km" },
+    { name: "EV Riders", emissions: "24 tCO₂e", spend: "67km" },
+    { name: "MetroMovers", emissions: "21 tCO₂e", spend: "61km" },
+    { name: "CleanBus", emissions: "17 tCO₂e", spend: "49km" },
+    { name: "CarbonLite Cab", emissions: "13 tCO₂e", spend: "36km" },
   ],
 };
 
@@ -265,6 +292,7 @@ async function renderSegmentValueChart(categoryNum) {
 
   const segmentValues = {};
   let unitLabel = "";
+  let activityTitle = "Value";
 
   filtered.forEach((d) => {
     const segment = d.category_segment;
@@ -278,13 +306,22 @@ async function renderSegmentValueChart(categoryNum) {
     if (!unitLabel) {
       if (formula.includes("cost")) {
         unitLabel = `Cost (${d.category_segment_unit})`;
+        activityTitle = "Cost";
       } else if (formula.includes("distance")) {
         unitLabel = `Distance (${d.category_segment_unit})`;
+        activityTitle = "Distance";
       } else {
         unitLabel = `Value (${d.category_segment_unit})`;
+        activityTitle = "Value";
       }
     }
   });
+
+  // ✅ Update the title in the DOM
+  const titleElem = document.getElementById("activitiesTitle");
+  if (titleElem) {
+    titleElem.textContent = `${activityTitle} by Activities`;
+  }
 
   renderCostChartBySegment(segmentValues, unitLabel);
 }
